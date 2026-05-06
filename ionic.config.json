@@ -1,0 +1,7 @@
+{
+  "name": "taller-munoz",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
