@@ -1,0 +1,109 @@
+.vehiculo-header {
+  margin-bottom: 16px;
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+
+    .btn-primary {
+      margin-left: auto;
+      background: #4d7cfe;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 4px 0;
+  }
+
+  p {
+    color: #666;
+    margin: 0;
+  }
+}
+
+.placa-badge {
+  background: #4d7cfe;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.borrador-badge {
+  background: #fff3cd;
+  color: #856404;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  border: 1px solid #ffc107;
+}
+
+ion-searchbar {
+  margin-bottom: 16px;
+  --border-radius: 12px;
+}
+
+h3 {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.servicio-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+
+    .categoria-tag {
+      background: #f0f0f0;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #333;
+    }
+
+    ion-icon {
+      margin-left: auto;
+      font-size: 1.2rem;
+    }
+  }
+
+  .notas {
+    color: #444;
+    margin: 8px 0;
+    font-size: 0.95rem;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: #888;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 32px;
+  color: #999;
+}

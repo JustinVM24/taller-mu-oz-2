@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Taller Munoz</ion-title>
+    <ion-button slot="end" fill="clear" (click)="irAdmin()">
+      Admin
+    </ion-button>
+    <ion-button slot="end" fill="clear" color="danger" (click)="cerrarSesion()">
+      Salir
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <h2>Taller Muñoz</h2>
+  <p>Buscar vehículo por placa</p>
+
+  <ion-searchbar
+    #searchbar
+    placeholder="Ingresa la placa del vehículo..."
+    (ionInput)="onBuscar($event)"
+    [debounce]="200">
+  </ion-searchbar>
+
+  <ion-list *ngIf="sugerencias.length > 0">
+    <ion-item
+      *ngFor="let v of sugerencias"
+      (click)="seleccionarVehiculo(v)"
+      button
+      detail="true">
+      <ion-label>
+        <div class="placa-row">
+          <ion-badge color="primary">{{ v.placa }}</ion-badge>
+          <ion-badge color="warning" *ngIf="v.tieneBorrador">
+            Borrador pendiente
+          </ion-badge>
+        </div>
+        <p>{{ v.propietario }}</p>
+        <p>{{ v.modelo }} {{ v.anio }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div class="empty-state" *ngIf="termino.length === 0">
+    <ion-icon name="search-outline"></ion-icon>
+    <p>Comienza a escribir para buscar un vehículo</p>
+  </div>
+
+  <div class="empty-state" *ngIf="sinResultados">
+    <p>No se encontró ningún vehículo con esa placa.</p>
+  </div>
+
+</ion-content>

@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear" (click)="volver()">
+      Volver
+    </ion-button>
+    <ion-button slot="end" fill="clear" (click)="irAdmin()">
+      Admin
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div *ngIf="vehiculo" class="vehiculo-header">
+    <div class="header-top">
+      <span class="placa-badge">{{ vehiculo.placa }}</span>
+      <span class="borrador-badge" *ngIf="vehiculo.tieneBorrador">
+        Borrador pendiente
+      </span>
+      <button class="btn-primary" (click)="nuevoServicio()">
+        + Nuevo Servicio
+      </button>
+    </div>
+    <h2>{{ vehiculo.propietario }}</h2>
+    <p>{{ vehiculo.modelo }} {{ vehiculo.anio }}</p>
+  </div>
+
+  <ion-searchbar
+    placeholder="Buscar en historial (ej: frenos, aceite)..."
+    (ionInput)="filtrarServicios($event)"
+    [debounce]="200">
+  </ion-searchbar>
+
+  <h3>Historial de Servicios</h3>
+
+  <div *ngIf="serviciosFiltrados.length === 0" class="empty-state">
+    <p>No hay servicios registrados.</p>
+  </div>
+
+  <div class="servicio-card" *ngFor="let s of serviciosFiltrados">
+    <div class="card-header">
+      <span class="categoria-tag">{{ s.descripcion }}</span>
+      <ion-icon
+        [name]="iconoSync(s.sincronizado)"
+        [color]="colorSync(s.sincronizado)">
+      </ion-icon>
+    </div>
+    <p class="notas" *ngIf="s.notas">{{ s.notas }}</p>
+    <div class="card-footer">
+      <span class="empleado">{{ s.empleadoNombre }}</span>
+      <span class="fecha">{{ s.fecha | date:'d \'de\' MMMM \'de\' yyyy' }}</span>
+    </div>
+  </div>
+
+</ion-content>

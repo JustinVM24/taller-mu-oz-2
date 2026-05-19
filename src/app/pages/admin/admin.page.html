@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear" (click)="volver()">
+      Volver
+    </ion-button>
+    <ion-button slot="end" fill="clear" (click)="exportarDatos()">
+      Exportar Datos
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <h2>Panel de Administracion</h2>
+
+  <div class="tabs">
+    <button class="tab-btn" [class.activo]="tabActiva === 'resumen'" (click)="cambiarTab('resumen')">Resumen</button>
+    <button class="tab-btn" [class.activo]="tabActiva === 'categorias'" (click)="cambiarTab('categorias')">Categorias</button>
+    <button class="tab-btn" [class.activo]="tabActiva === 'empleados'" (click)="cambiarTab('empleados')">Empleados</button>
+  </div>
+
+  <div *ngIf="tabActiva === 'resumen'">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-label">Vehiculos hoy</p>
+        <p class="stat-valor">{{ vehiculosHoy }}</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Servicios hoy</p>
+        <p class="stat-valor">{{ serviciosHoy }}</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Servicio mas comun</p>
+        <p class="stat-nombre">{{ servicioMasComun }}</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Empleado destacado</p>
+        <p class="stat-nombre">{{ empleadoDestacado }}</p>
+      </div>
+    </div>
+    <div class="actividad-card">
+      <h3>Actividad Reciente</h3>
+      <p>Resumen de servicios de las ultimas 24 horas</p>
+    </div>
+  </div>
+
+  <div *ngIf="tabActiva === 'categorias'">
+    <div class="seccion-header">
+      <h3>Categorias de Servicio</h3>
+      <button class="btn-dark" (click)="mostrarInputCategoria = true">+ Nueva Categoria</button>
+    </div>
+    <div *ngIf="mostrarInputCategoria" class="input-nueva">
+      <input type="text" placeholder="Nombre..." [(ngModel)]="nuevaCategoria" class="input-texto">
+      <button class="btn-primary" (click)="agregarCategoria()">Agregar</button>
+      <button class="btn-gris" (click)="mostrarInputCategoria = false">Cancelar</button>
+    </div>
+    <div class="categorias-grid">
+      <div class="categoria-item" *ngFor="let cat of categorias; let i = index">
+        <span>{{ cat }}</span>
+        <button class="btn-danger" (click)="eliminarCategoria(i)">X</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="tabActiva === 'empleados'">
+    <div class="seccion-header">
+      <h3>Empleados</h3>
+      <button class="btn-dark">+ Nuevo Empleado</button>
+    </div>
+    <div class="empleado-item" *ngFor="let emp of empleados">
+      <div class="empleado-info">
+        <div class="empleado-nombre-row">
+          <span class="empleado-nombre">{{ emp.nombre }}</span>
+          <span class="badge" [class.activo]="emp.activo" [class.inactivo]="!emp.activo">
+            {{ emp.activo ? 'Activo' : 'Inactivo' }}
+          </span>
+        </div>
+        <p class="empleado-email">{{ emp.email }}</p>
+      </div>
+      <button class="btn-gris" (click)="toggleEmpleado(emp)">Editar</button>
+    </div>
+  </div>
+
+</ion-content>

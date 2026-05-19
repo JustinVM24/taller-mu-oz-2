@@ -1,0 +1,78 @@
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.sync-status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 16px;
+  font-size: 0.85rem;
+}
+
+.seccion {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+
+  h3 {
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+}
+
+.categorias-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.categoria-btn {
+  padding: 14px 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+
+  &.seleccionado {
+    background: #4d7cfe;
+    color: white;
+    border-color: #4d7cfe;
+    font-weight: 600;
+  }
+}
+
+.otro-btn {
+  grid-column: 1 / -1;
+}
+
+.otro-input {
+  margin-top: 12px;
+}
+
+.input-texto {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+.textarea-notas {
+  --border-radius: 10px;
+  --background: #f9f9f9;
+}
+
+ion-button[expand="block"] {
+  margin-top: 8px;
+  height: 52px;
+  font-size: 1rem;
+}

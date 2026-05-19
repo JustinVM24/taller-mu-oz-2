@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear" (click)="cancelar()">
+      <ion-icon name="arrow-back" slot="start"></ion-icon>
+      Cancelar
+    </ion-button>
+    <div class="sync-status" slot="end">
+      <ion-icon [name]="enLinea ? 'wifi' : 'wifi-outline'"
+        [style.color]="enLinea ? 'green' : 'gray'">
+      </ion-icon>
+      <span [style.color]="enLinea ? 'green' : 'gray'">
+        {{ enLinea ? 'En línea' : 'Sin conexión' }}
+      </span>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <h2>Nuevo Servicio</h2>
+  <p>Placa: {{ vehiculoId }}</p>
+
+  <div class="seccion">
+    <h3>Tipo de Servicio</h3>
+    <div class="categorias-grid">
+      <button
+        *ngFor="let cat of categorias"
+        class="categoria-btn"
+        [class.seleccionado]="categoriaSeleccionada === cat"
+        (click)="seleccionarCategoria(cat)">
+        {{ cat }}
+      </button>
+      <button
+        class="categoria-btn otro-btn"
+        [class.seleccionado]="esOtro"
+        (click)="seleccionarOtro()">
+        Otro (escribir manualmente)
+      </button>
+    </div>
+
+    <div *ngIf="esOtro" class="otro-input">
+      <input
+        type="text"
+        placeholder="Describe el servicio..."
+        [(ngModel)]="descripcionOtro"
+        class="input-texto">
+    </div>
+  </div>
+
+  <div class="seccion">
+    <h3>Notas adicionales (opcional)</h3>
+    <ion-textarea
+      placeholder="Detalles del servicio, observaciones, repuestos utilizados..."
+      [(ngModel)]="notas"
+      rows="4"
+      class="textarea-notas">
+    </ion-textarea>
+  </div>
+
+  <ion-button
+    expand="block"
+    color="primary"
+    (click)="guardar()"
+    [disabled]="!categoriaSeleccionada">
+    <ion-icon name="save" slot="start"></ion-icon>
+    Guardar Servicio
+  </ion-button>
+
+</ion-content>

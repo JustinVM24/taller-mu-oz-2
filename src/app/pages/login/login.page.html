@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding login-content">
+
+  <div class="login-container">
+
+    <div class="logo-area">
+      <div class="logo-icono">🔧</div>
+      <h1>Taller Munoz</h1>
+      <p>Inicia sesion para continuar</p>
+    </div>
+
+    <div class="formulario">
+
+      <div class="campo">
+        <label>Correo electronico</label>
+        <input
+          type="email"
+          placeholder="correo@tallermunoz.com"
+          [(ngModel)]="email"
+          class="input-texto">
+      </div>
+
+      <div class="campo">
+        <label>Contrasena</label>
+        <input
+          type="password"
+          placeholder="Tu contrasena"
+          [(ngModel)]="password"
+          class="input-texto">
+      </div>
+
+      <p class="error" *ngIf="errorMensaje">{{ errorMensaje }}</p>
+
+      <button class="btn-login" (click)="iniciarSesion()">
+        Iniciar Sesion
+      </button>
+
+      <div class="usuarios-prueba">
+        <p class="titulo-prueba">Usuarios de prueba:</p>
+        <p>Dueno: carlos@tallermunoz.com</p>
+        <p>Empleado: juan@tallermunoz.com</p>
+        <p>Contrasena: 1234</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

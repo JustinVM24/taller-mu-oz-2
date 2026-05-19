@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear" (click)="cancelar()">
+      Cancelar
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <h2>Registrar Vehiculo</h2>
+  <p>Ingresa los datos del nuevo vehiculo</p>
+
+  <div class="formulario">
+
+    <div class="campo">
+      <label>Placa *</label>
+      <input
+        type="text"
+        placeholder="Ej: ABC123"
+        [(ngModel)]="placa"
+        class="input-texto"
+        maxlength="10">
+    </div>
+
+    <div class="campo">
+      <label>Propietario *</label>
+      <input
+        type="text"
+        placeholder="Nombre completo"
+        [(ngModel)]="propietario"
+        class="input-texto">
+    </div>
+
+    <div class="campo">
+      <label>Modelo *</label>
+      <input
+        type="text"
+        placeholder="Ej: Toyota Corolla"
+        [(ngModel)]="modelo"
+        class="input-texto">
+    </div>
+
+    <div class="campo">
+      <label>Año</label>
+      <input
+        type="number"
+        placeholder="Ej: 2020"
+        [(ngModel)]="anio"
+        class="input-texto">
+    </div>
+
+    <div class="campo">
+      <label>Telefono (opcional)</label>
+      <input
+        type="tel"
+        placeholder="Ej: 8888-8888"
+        [(ngModel)]="telefono"
+        class="input-texto">
+    </div>
+
+    <p class="error" *ngIf="errorMensaje">{{ errorMensaje }}</p>
+
+    <button class="btn-guardar" (click)="guardar()">
+      Guardar Vehiculo
+    </button>
+
+  </div>
+
+</ion-content>
