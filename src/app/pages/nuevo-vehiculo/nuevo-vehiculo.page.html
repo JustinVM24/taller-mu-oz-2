@@ -12,59 +12,85 @@
   <p>Ingresa los datos del nuevo vehiculo</p>
 
   <div class="formulario">
-
     <div class="campo">
       <label>Placa *</label>
-      <input
-        type="text"
-        placeholder="Ej: ABC123"
-        [(ngModel)]="placa"
-        class="input-texto"
-        maxlength="10">
+      <input type="text" placeholder="Ej: ABC123"
+        (input)="placa = $any($event.target).value"
+        class="input-texto" maxlength="10">
     </div>
-
     <div class="campo">
       <label>Propietario *</label>
-      <input
-        type="text"
-        placeholder="Nombre completo"
-        [(ngModel)]="propietario"
+      <input type="text" placeholder="Nombre completo"
+        (input)="propietario = $any($event.target).value"
         class="input-texto">
     </div>
-
     <div class="campo">
       <label>Modelo *</label>
-      <input
-        type="text"
-        placeholder="Ej: Toyota Corolla"
-        [(ngModel)]="modelo"
+      <input type="text" placeholder="Ej: Toyota Corolla"
+        (input)="modelo = $any($event.target).value"
         class="input-texto">
     </div>
-
     <div class="campo">
       <label>Año</label>
-      <input
-        type="number"
-        placeholder="Ej: 2020"
-        [(ngModel)]="anio"
+      <input type="number" placeholder="Ej: 2020"
+        (input)="anio = $any($event.target).value"
+        [value]="anio"
         class="input-texto">
     </div>
-
     <div class="campo">
       <label>Telefono (opcional)</label>
-      <input
-        type="tel"
-        placeholder="Ej: 8888-8888"
-        [(ngModel)]="telefono"
+      <input type="tel" placeholder="Ej: 8888-8888"
+        (input)="telefono = $any($event.target).value"
         class="input-texto">
     </div>
-
     <p class="error" *ngIf="errorMensaje">{{ errorMensaje }}</p>
-
-    <button class="btn-guardar" (click)="guardar()">
-      Guardar Vehiculo
-    </button>
-
   </div>
+
+  <!-- Sección de servicio inicial -->
+  <div class="seccion-servicio">
+    <div class="servicio-header" (click)="agregarServicio = !agregarServicio">
+      <span>¿Agregar servicio inicial?</span>
+      <span class="toggle">{{ agregarServicio ? '▲' : '▼' }}</span>
+    </div>
+
+    <div *ngIf="agregarServicio" class="servicio-body">
+      <h3>Tipo de Servicio</h3>
+      <div class="categorias-grid">
+        <button
+          *ngFor="let cat of categorias"
+          class="categoria-btn"
+          [class.seleccionado]="categoriaSeleccionada === cat"
+          (click)="seleccionarCategoria(cat)">
+          {{ cat }}
+        </button>
+        <button
+          class="categoria-btn otro-btn"
+          [class.seleccionado]="esOtro"
+          (click)="seleccionarOtro()">
+          Otro (escribir manualmente)
+        </button>
+      </div>
+
+      <div *ngIf="esOtro" class="otro-input">
+        <input type="text" placeholder="Describe el servicio..."
+          (input)="descripcionOtro = $any($event.target).value"
+          class="input-texto">
+      </div>
+
+      <div class="campo" style="margin-top: 12px;">
+        <label>Notas (opcional)</label>
+        <ion-textarea
+          placeholder="Observaciones, repuestos utilizados..."
+          (ionInput)="notas = $any($event.target).value"
+          rows="3"
+          class="textarea-notas">
+        </ion-textarea>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-guardar" (click)="guardar()">
+    Guardar Vehiculo
+  </button>
 
 </ion-content>

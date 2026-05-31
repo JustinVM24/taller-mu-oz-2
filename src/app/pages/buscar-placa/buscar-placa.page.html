@@ -1,23 +1,26 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Taller Munoz</ion-title>
-    <ion-button slot="end" fill="clear" (click)="irAdmin()">
-      Admin
-    </ion-button>
+<ion-button slot="end" fill="clear" color="primary" (click)="irAdmin()" *ngIf="esAdmin">
+  Admin
+</ion-button>
     <ion-button slot="end" fill="clear" color="danger" (click)="cerrarSesion()">
       Salir
     </ion-button>
+  </ion-toolbar>
+  <ion-toolbar>
+    <div class="saludo-bar">Hola, {{ nombreUsuario }}</div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
-  <h2>Taller Muñoz</h2>
-  <p>Buscar vehículo por placa</p>
+  <h2>Taller Munoz</h2>
+  <p>Buscar vehiculo por placa</p>
 
   <ion-searchbar
     #searchbar
-    placeholder="Ingresa la placa del vehículo..."
+    placeholder="Ingresa la placa del vehiculo..."
     (ionInput)="onBuscar($event)"
     [debounce]="200">
   </ion-searchbar>
@@ -43,11 +46,30 @@
 
   <div class="empty-state" *ngIf="termino.length === 0">
     <ion-icon name="search-outline"></ion-icon>
-    <p>Comienza a escribir para buscar un vehículo</p>
+    <p>Comienza a escribir para buscar un vehiculo</p>
   </div>
 
   <div class="empty-state" *ngIf="sinResultados">
-    <p>No se encontró ningún vehículo con esa placa.</p>
+    <ion-icon name="search-outline"></ion-icon>
+    <p>No se encontro ningun vehiculo con esa placa.</p>
+    <button class="btn-agregar" (click)="irAgregarVehiculo()">
+      + Registrar vehiculo nuevo
+    </button>
   </div>
 
 </ion-content>
+
+<ion-tab-bar slot="bottom">
+  <ion-tab-button (click)="irAdmin()" *ngIf="esAdmin">
+    <ion-icon name="settings-outline"></ion-icon>
+    <ion-label>Admin</ion-label>
+  </ion-tab-button>
+  <ion-tab-button selected>
+    <ion-icon name="search-outline"></ion-icon>
+    <ion-label>Buscar</ion-label>
+  </ion-tab-button>
+  <ion-tab-button (click)="irAgregarVehiculo()">
+    <ion-icon name="add-circle-outline"></ion-icon>
+    <ion-label>Nuevo</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>

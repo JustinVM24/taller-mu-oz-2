@@ -5,10 +5,11 @@ import { Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonSearchbar, IonList, IonItem, IonLabel,
-  IonBadge, IonButton, IonIcon
+  IonBadge, IonButton, IonIcon,
+  IonTabBar, IonTabButton
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { searchOutline, settings } from 'ionicons/icons';
+import { searchOutline, settings, settingsOutline, addCircleOutline } from 'ionicons/icons';
 import { DbService } from '../../core/services/db.service';
 import { Vehiculo } from '../../core/models/vehiculo.model';
 
@@ -30,7 +31,9 @@ import { Vehiculo } from '../../core/models/vehiculo.model';
     IonLabel,
     IonBadge,
     IonButton,
-    IonIcon
+    IonIcon,
+    IonTabBar,
+    IonTabButton
   ]
 })
 export class BuscarPlacaPage implements OnInit {
@@ -39,12 +42,22 @@ export class BuscarPlacaPage implements OnInit {
   sugerencias: Vehiculo[] = [];
   sinResultados = false;
   termino = '';
+  nombreUsuario = '';
+  esAdmin = false;
 
   constructor(private db: DbService, private router: Router) {
-    addIcons({ searchOutline, settings });
+    addIcons({ searchOutline, settings, settingsOutline, addCircleOutline });
   }
 
+  ionViewWillEnter() {
+  const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+  this.nombreUsuario = usuario.nombre || 'Usuario';
+  this.esAdmin = usuario.rol === 'dueno';
+}
+
   async ngOnInit() {
+   
+
     await this.db.init();
 
     const vehiculos = await this.db.obtenerVehiculos();
@@ -106,8 +119,9 @@ export class BuscarPlacaPage implements OnInit {
   irAgregarVehiculo() {
     this.router.navigate(['/nuevo-vehiculo']);
   }
+
   cerrarSesion() {
-  localStorage.removeItem('usuario');
-  this.router.navigate(['/login']);
-}
+    localStorage.removeItem('usuario');
+    this.router.navigate(['/login']);
+  }
 }

@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonToolbar,
-  IonButton, IonIcon, IonInput
+  IonButton, IonIcon, IonTextarea
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { arrowBack, save } from 'ionicons/icons';
+import { arrowBack, save, add, trash } from 'ionicons/icons';
 import { DbService } from '../../core/services/db.service';
 import { Vehiculo } from '../../core/models/vehiculo.model';
 
@@ -24,7 +24,7 @@ import { Vehiculo } from '../../core/models/vehiculo.model';
     IonToolbar,
     IonButton,
     IonIcon,
-    IonInput
+    IonTextarea
   ]
 })
 export class NuevoVehiculoPage implements OnInit {
@@ -35,12 +35,39 @@ export class NuevoVehiculoPage implements OnInit {
   telefono = '';
   errorMensaje = '';
 
+  agregarServicio = false;
+  categoriaSeleccionada = '';
+  esOtro = false;
+  descripcionOtro = '';
+  notas = '';
+
+  categorias = [
+    'Cambio de aceite',
+    'Revision de frenos',
+    'Alineacion y balanceo',
+    'Cambio de llantas',
+    'Revision general',
+    'Cambio de filtros',
+    'Reparacion de motor',
+    'Reparacion de transmision'
+  ];
+
   constructor(private router: Router, private db: DbService) {
-    addIcons({ arrowBack, save });
+    addIcons({ arrowBack, save, add, trash });
   }
 
   async ngOnInit() {
     await this.db.init();
+  }
+
+  seleccionarCategoria(cat: string) {
+    this.categoriaSeleccionada = cat;
+    this.esOtro = false;
+  }
+
+  seleccionarOtro() {
+    this.categoriaSeleccionada = 'otro';
+    this.esOtro = true;
   }
 
   async guardar() {
@@ -59,7 +86,26 @@ export class NuevoVehiculoPage implements OnInit {
     };
 
     await this.db.guardarVehiculo(vehiculo);
-    this.router.navigate(['/buscar-placa']);
+
+    const vehiculos = await this.db.obtenerVehiculos();
+    const nuevoVehiculo = vehiculos[vehiculos.length - 1];
+
+    if (this.agregarServicio && this.categoriaSeleccionada) {
+      const descripcion = this.esOtro ? this.descripcionOtro : this.categoriaSeleccionada;
+      const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+      await this.db.guardarServicio({
+        vehiculoId: nuevoVehiculo.id!,
+        descripcion,
+        notas: this.notas,
+        empleadoId: usuario.id || 1,
+        empleadoNombre: usuario.nombre || 'Empleado',
+        fecha: new Date().toISOString(),
+        sincronizado: navigator.onLine ? 'ok' : 'pendiente',
+        esBorrador: false
+      });
+    }
+
+    this.router.navigate(['/vehiculo', nuevoVehiculo.id]);
   }
 
   cancelar() {

@@ -9,7 +9,6 @@ import {
 import { addIcons } from 'ionicons';
 import { arrowBack, download, add, trash, pencil, trendingUp, calendar, people } from 'ionicons/icons';
 import { DbService } from '../../core/services/db.service';
-import { Servicio } from '../../core/models/servicio.model';
 import { Empleado } from '../../core/models/empleado.model';
 
 @Component({
@@ -56,6 +55,12 @@ export class AdminPage implements OnInit {
   nuevaCategoria = '';
   mostrarInputCategoria = false;
 
+  nuevoEmpleadoNombre = '';
+  nuevoEmpleadoEmail = '';
+  nuevoEmpleadoPassword = '';
+  mostrarFormEmpleado = false;
+  errorEmpleado = '';
+
   constructor(private router: Router, private db: DbService) {
     addIcons({ arrowBack, download, add, trash, pencil, trendingUp, calendar, people });
   }
@@ -63,6 +68,18 @@ export class AdminPage implements OnInit {
   async ngOnInit() {
     await this.db.init();
     await this.calcularResumen();
+    this.cargarEmpleados();
+  }
+
+  cargarEmpleados() {
+    const guardados = localStorage.getItem('empleados');
+    if (guardados) {
+      this.empleados = JSON.parse(guardados);
+    }
+  }
+
+  guardarEmpleados() {
+    localStorage.setItem('empleados', JSON.stringify(this.empleados));
   }
 
   async calcularResumen() {
@@ -70,17 +87,14 @@ export class AdminPage implements OnInit {
     const hoy = new Date().toDateString();
     const serviciosDeHoy = servicios.filter(s => new Date(s.fecha).toDateString() === hoy);
     this.serviciosHoy = serviciosDeHoy.length;
-
     const vehiculosHoy = new Set(serviciosDeHoy.map(s => s.vehiculoId));
     this.vehiculosHoy = vehiculosHoy.size;
-
     if (servicios.length > 0) {
       const conteo: { [key: string]: number } = {};
       servicios.forEach(s => { conteo[s.descripcion] = (conteo[s.descripcion] || 0) + 1; });
       this.servicioMasComun = Object.keys(conteo).reduce((a, b) => conteo[a] > conteo[b] ? a : b);
     }
-
-    this.empleadoDestacado = 'Juan Perez';
+    this.empleadoDestacado = this.empleados[0]?.nombre || 'Sin datos';
   }
 
   cambiarTab(tab: string) {
@@ -99,8 +113,35 @@ export class AdminPage implements OnInit {
     this.categorias.splice(i, 1);
   }
 
+  agregarEmpleado() {
+    if (!this.nuevoEmpleadoNombre || !this.nuevoEmpleadoEmail || !this.nuevoEmpleadoPassword) {
+      this.errorEmpleado = 'Todos los campos son obligatorios.';
+      return;
+    }
+    const nuevo: Empleado = {
+      id: Date.now(),
+      nombre: this.nuevoEmpleadoNombre,
+      email: this.nuevoEmpleadoEmail,
+      rol: 'empleado',
+      activo: true
+    };
+    this.empleados.push(nuevo);
+    this.guardarEmpleados();
+    this.nuevoEmpleadoNombre = '';
+    this.nuevoEmpleadoEmail = '';
+    this.nuevoEmpleadoPassword = '';
+    this.mostrarFormEmpleado = false;
+    this.errorEmpleado = '';
+  }
+
   toggleEmpleado(emp: Empleado) {
     emp.activo = !emp.activo;
+    this.guardarEmpleados();
+  }
+
+  eliminarEmpleado(i: number) {
+    this.empleados.splice(i, 1);
+    this.guardarEmpleados();
   }
 
   async exportarDatos() {
@@ -118,8 +159,9 @@ export class AdminPage implements OnInit {
         Estado: s.sincronizado
       };
     });
+    if (datos.length === 0) { return; }
     const csv = [
-      Object.keys(datos[0] || {}).join(','),
+      Object.keys(datos[0]).join(','),
       ...datos.map(row => Object.values(row).join(','))
     ].join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });

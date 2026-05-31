@@ -2,22 +2,21 @@ h2 {
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 4px;
+  color: #1a1a2e;
 }
 
-p {
-  color: #666;
-  margin-bottom: 20px;
-}
+p { color: #666; margin-bottom: 12px; }
 
 .formulario {
   background: white;
   border-radius: 16px;
   padding: 20px;
+  margin-bottom: 16px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
 .campo {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 
   label {
     display: block;
@@ -35,10 +34,13 @@ p {
   border-radius: 10px;
   font-size: 0.95rem;
   box-sizing: border-box;
+  color: #1a1a2e;
+  background: #f9f9f9;
 
   &:focus {
     outline: none;
     border-color: #4d7cfe;
+    background: white;
   }
 }
 
@@ -48,9 +50,77 @@ p {
   margin-bottom: 12px;
 }
 
+.seccion-servicio {
+  background: white;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  overflow: hidden;
+
+  .servicio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #1a1a2e;
+
+    &:hover { background: #f9f9f9; }
+  }
+
+  .servicio-body {
+    padding: 0 20px 20px 20px;
+
+    h3 {
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #1a1a2e;
+    }
+  }
+}
+
+.categorias-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.categoria-btn {
+  padding: 12px 8px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  background: white;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  color: #1a1a2e;
+
+  &.seleccionado {
+    background: #4d7cfe;
+    color: white;
+    border-color: #4d7cfe;
+    font-weight: 600;
+  }
+}
+
+.otro-btn { grid-column: 1 / -1; }
+
+.otro-input { margin-bottom: 12px; }
+
+.textarea-notas {
+  --border-radius: 10px;
+  --background: #f9f9f9;
+  --color: #1a1a2e;
+  --placeholder-color: #999;
+  --border-color: #ddd;
+}
+
 .btn-guardar {
   width: 100%;
-  padding: 14px;
+  padding: 16px;
   background: #4d7cfe;
   color: white;
   border: none;
@@ -58,5 +128,5 @@ p {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 8px;
+  margin-bottom: 20px;
 }

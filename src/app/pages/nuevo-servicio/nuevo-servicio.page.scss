@@ -2,6 +2,12 @@ h2 {
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 4px;
+  color: #1a1a2e;
+}
+
+p {
+  color: #666;
+  margin-bottom: 8px;
 }
 
 .sync-status {
@@ -22,6 +28,7 @@ h2 {
   h3 {
     font-weight: 600;
     margin-bottom: 16px;
+    color: #1a1a2e;
   }
 }
 
@@ -33,13 +40,20 @@ h2 {
 
 .categoria-btn {
   padding: 14px 10px;
-  border: 1px solid #ddd;
+  border: 1.5px solid #e0e0e0;
   border-radius: 10px;
   background: white;
   font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
   text-align: center;
+  color: #1a1a2e;
   transition: all 0.2s;
+
+  &:hover {
+    border-color: #4d7cfe;
+    color: #4d7cfe;
+  }
 
   &.seleccionado {
     background: #4d7cfe;
@@ -64,11 +78,15 @@ h2 {
   border-radius: 10px;
   font-size: 0.95rem;
   box-sizing: border-box;
+  color: #1a1a2e;
+  background: #f9f9f9;
 }
 
 .textarea-notas {
   --border-radius: 10px;
   --background: #f9f9f9;
+  --color: #1a1a2e;
+  --placeholder-color: #999;
 }
 
 ion-button[expand="block"] {

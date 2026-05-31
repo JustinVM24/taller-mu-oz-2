@@ -4,7 +4,7 @@
       Volver
     </ion-button>
     <ion-button slot="end" fill="clear" (click)="exportarDatos()">
-      Exportar Datos
+      Exportar
     </ion-button>
   </ion-toolbar>
 </ion-header>
@@ -19,6 +19,7 @@
     <button class="tab-btn" [class.activo]="tabActiva === 'empleados'" (click)="cambiarTab('empleados')">Empleados</button>
   </div>
 
+  <!-- TAB RESUMEN -->
   <div *ngIf="tabActiva === 'resumen'">
     <div class="stats-grid">
       <div class="stat-card">
@@ -31,11 +32,11 @@
       </div>
       <div class="stat-card">
         <p class="stat-label">Servicio mas comun</p>
-        <p class="stat-nombre">{{ servicioMasComun }}</p>
+        <p class="stat-nombre">{{ servicioMasComun || 'Sin datos' }}</p>
       </div>
       <div class="stat-card">
         <p class="stat-label">Empleado destacado</p>
-        <p class="stat-nombre">{{ empleadoDestacado }}</p>
+        <p class="stat-nombre">{{ empleadoDestacado || 'Sin datos' }}</p>
       </div>
     </div>
     <div class="actividad-card">
@@ -44,30 +45,55 @@
     </div>
   </div>
 
+  <!-- TAB CATEGORIAS -->
   <div *ngIf="tabActiva === 'categorias'">
     <div class="seccion-header">
       <h3>Categorias de Servicio</h3>
-      <button class="btn-dark" (click)="mostrarInputCategoria = true">+ Nueva Categoria</button>
+      <button class="btn-dark" (click)="mostrarInputCategoria = true">+ Nueva</button>
     </div>
     <div *ngIf="mostrarInputCategoria" class="input-nueva">
-      <input type="text" placeholder="Nombre..." [(ngModel)]="nuevaCategoria" class="input-texto">
+      <input type="text" placeholder="Nombre..." 
+        (input)="nuevaCategoria = $any($event.target).value"
+        class="input-texto">
       <button class="btn-primary" (click)="agregarCategoria()">Agregar</button>
       <button class="btn-gris" (click)="mostrarInputCategoria = false">Cancelar</button>
     </div>
     <div class="categorias-grid">
       <div class="categoria-item" *ngFor="let cat of categorias; let i = index">
         <span>{{ cat }}</span>
-        <button class="btn-danger" (click)="eliminarCategoria(i)">X</button>
+        <button class="btn-danger-sm" (click)="eliminarCategoria(i)">✕</button>
       </div>
     </div>
   </div>
 
+  <!-- TAB EMPLEADOS -->
   <div *ngIf="tabActiva === 'empleados'">
     <div class="seccion-header">
       <h3>Empleados</h3>
-      <button class="btn-dark">+ Nuevo Empleado</button>
+      <button class="btn-dark" (click)="mostrarFormEmpleado = !mostrarFormEmpleado">
+        + Nuevo Empleado
+      </button>
     </div>
-    <div class="empleado-item" *ngFor="let emp of empleados">
+
+    <div *ngIf="mostrarFormEmpleado" class="form-empleado">
+      <h4>Nuevo Empleado</h4>
+      <input type="text" placeholder="Nombre completo"
+        (input)="nuevoEmpleadoNombre = $any($event.target).value"
+        class="input-texto">
+      <input type="email" placeholder="Correo electronico"
+        (input)="nuevoEmpleadoEmail = $any($event.target).value"
+        class="input-texto">
+      <input type="password" placeholder="Contrasena"
+        (input)="nuevoEmpleadoPassword = $any($event.target).value"
+        class="input-texto">
+      <p class="error" *ngIf="errorEmpleado">{{ errorEmpleado }}</p>
+      <div class="form-buttons">
+        <button class="btn-primary" (click)="agregarEmpleado()">Guardar</button>
+        <button class="btn-gris" (click)="mostrarFormEmpleado = false">Cancelar</button>
+      </div>
+    </div>
+
+    <div class="empleado-item" *ngFor="let emp of empleados; let i = index">
       <div class="empleado-info">
         <div class="empleado-nombre-row">
           <span class="empleado-nombre">{{ emp.nombre }}</span>
@@ -77,7 +103,12 @@
         </div>
         <p class="empleado-email">{{ emp.email }}</p>
       </div>
-      <button class="btn-gris" (click)="toggleEmpleado(emp)">Editar</button>
+      <div class="empleado-acciones">
+        <button class="btn-toggle" (click)="toggleEmpleado(emp)">
+          {{ emp.activo ? 'Desactivar' : 'Activar' }}
+        </button>
+        <button class="btn-danger-sm" (click)="eliminarEmpleado(i)">✕</button>
+      </div>
     </div>
   </div>
 
