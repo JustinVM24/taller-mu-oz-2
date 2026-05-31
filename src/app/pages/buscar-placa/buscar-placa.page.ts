@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
-  IonContent, IonHeader, IonTitle, IonToolbar,
+  IonButtons,IonContent, IonHeader, IonTitle, IonToolbar,
   IonSearchbar, IonList, IonItem, IonLabel,
   IonBadge, IonButton, IonIcon,
   IonTabBar, IonTabButton
@@ -33,7 +33,8 @@ import { Vehiculo } from '../../core/models/vehiculo.model';
     IonButton,
     IonIcon,
     IonTabBar,
-    IonTabButton
+    IonTabButton,
+    IonButtons
   ]
 })
 export class BuscarPlacaPage implements OnInit {
